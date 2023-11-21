@@ -1,6 +1,5 @@
-﻿using NLog;
+using NLog;
 using ProxiedProxy.Models;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -49,7 +48,7 @@ internal class ProxyServer
         {
             var client = await _listener.AcceptTcpClientAsync();
 
-            try { await HandleClientAsync(client); }
+            try { _ = Task.Run(() => HandleClientAsync(client)); }
             catch (Exception ex) { _logger.Error(ex.Message); }
         }
     }
